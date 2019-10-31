@@ -15,9 +15,9 @@ server.get("/",(req,res,next)=>{
     res.sendFile(INDEX);
 });
 
-server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const httpserver = server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-const wss = new SocketServer({ server });
+const wss = new SocketServer({ server:httpserver });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
