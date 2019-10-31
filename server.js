@@ -2,14 +2,11 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 const path = require('path');
-var bodyParser = require('body-parser');
-//var cors = require('cors');
 
 const PORT = process.env.PORT || 3002;
 const INDEX = path.join(__dirname, 'index.html');
 
 const server = express();
-//   .use((req, res) => res.sendFile(INDEX) )
 
 server.get("/",(req,res,next)=>{
     res.sendFile(INDEX);
@@ -44,6 +41,9 @@ const writeSocket = (msg)=>{
       });
 }
 
+/**Create a composition with override for loggit to write to 
+ * web socket.
+ */
 const logger = Object.assign(
     loggerClass.call({}),
     {
@@ -54,37 +54,11 @@ const logger = Object.assign(
     });
 
 
-    server.get('/api1', function (req, res, next) {
+    server.get('/getUser', function (req, res, next) {
         res.json([
             { id: 1, username: "dave" },
             { id: 2, username: "stu" }
         ]);
     
-        logger.loggit("Hi from get");
+        logger.loggit("getUser API was invoked.  You should see this output at your web socket listeners.");
     });
-
-// // //Create app server.
-// // const app = express();
-// // //app.use(cors());
-// // app.use(bodyParser.json());
-
-// // app.use(function (req, res, next) {
-// //     res.header("Access-Control-Allow-Origin", "*");
-// //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-// //     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-// //     res.header("Access-Control-Allow-Credentials", "true");
-// //     next();
-// // });
-// // app.get('/', function (req, res, next) {
-// //     res.json([
-// //         { id: 1, username: "dave" },
-// //         { id: 2, username: "stu" }
-// //     ]);
-
-// //     logger.loggit("Hi from get");
-// // });
-
-// // const PORT_APP_SERVER = 3001;
-// // app.listen(PORT_APP_SERVER, () => {
-// //     console.log("Server up and listening on " + PORT_APP_SERVER);
-// // })
