@@ -8,9 +8,14 @@ var bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3002;
 const INDEX = path.join(__dirname, 'index.html');
 
-const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+const server = express();
+//   .use((req, res) => res.sendFile(INDEX) )
+
+server.get("/",(req,res,next)=>{
+    res.sendFile(INDEX);
+});
+
+server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const wss = new SocketServer({ server });
 
@@ -49,28 +54,37 @@ const logger = Object.assign(
     });
 
 
-//Create app server.
-const app = express();
-//app.use(cors());
-app.use(bodyParser.json());
+    server.get('/api1', function (req, res, next) {
+        res.json([
+            { id: 1, username: "dave" },
+            { id: 2, username: "stu" }
+        ]);
+    
+        logger.loggit("Hi from get");
+    });
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
-});
-app.get('/', function (req, res, next) {
-    res.json([
-        { id: 1, username: "dave" },
-        { id: 2, username: "stu" }
-    ]);
+// // //Create app server.
+// // const app = express();
+// // //app.use(cors());
+// // app.use(bodyParser.json());
 
-    logger.loggit("Hi from get");
-});
+// // app.use(function (req, res, next) {
+// //     res.header("Access-Control-Allow-Origin", "*");
+// //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// //     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+// //     res.header("Access-Control-Allow-Credentials", "true");
+// //     next();
+// // });
+// // app.get('/', function (req, res, next) {
+// //     res.json([
+// //         { id: 1, username: "dave" },
+// //         { id: 2, username: "stu" }
+// //     ]);
 
-const PORT_APP_SERVER = 3001;
-app.listen(PORT_APP_SERVER, () => {
-    console.log("Server up and listening on " + PORT_APP_SERVER);
-})
+// //     logger.loggit("Hi from get");
+// // });
+
+// // const PORT_APP_SERVER = 3001;
+// // app.listen(PORT_APP_SERVER, () => {
+// //     console.log("Server up and listening on " + PORT_APP_SERVER);
+// // })
