@@ -2,10 +2,17 @@
   <body>
     <p id='server-time'></p>
     <script>
+      //var HOST = "ws://https://tranquil-ridge-00086.herokuapp.com:";
       var HOST = location.origin.replace(/^http/, 'ws')
+
       var ws = new WebSocket(HOST);
       var el = document.getElementById('server-time');
+      var showPort = false;
       ws.onmessage = function (event) {
+          if(!showPort){
+                el.innerHTML      = HOST;
+              showPort = true;
+          }
           
         el.innerHTML += '<br/>Server time: ' + event.data;
       };
