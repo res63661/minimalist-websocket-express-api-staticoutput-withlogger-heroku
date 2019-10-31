@@ -2,9 +2,14 @@
   <body>
     <p id='server-time'></p>
     <script>
-        /**SET HEROKU TARGET SERVER HERE**/
-      var HOST = "wss://tranquil-ridge-00086.herokuapp.com";
-      //var HOST = location.origin.replace(/^http/, 'ws')
+        /**SET HEROKU TARGET SERVER HERE IF YOU ARE HOSTING WEB/DASHBOARD/REPORTING
+         *  ON ANOTHER SERVER
+         * 
+         * var HOST = "wss://tranquil-ridge-00086.herokuapp.com";
+         * 
+         * **/
+      
+      var HOST = location.origin.replace(/^http/, 'ws')
 
       var ws = new WebSocket(HOST);
       var el = document.getElementById('server-time');
